@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "run": "node index.js",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    
   },
   "author": "",
   "license": "ISC",

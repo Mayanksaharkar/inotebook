@@ -1,7 +1,7 @@
 import NoteContext from "./NoteContext";
 import { useState } from "react";
 const NoteContextProvider = ({ children }) => {
-  const host = "http://localhost:5000";
+  const host = "https://inotebook-mbs4.onrender.com";
   const notesInitail = [];
 
   const [notes, setNotes] = useState(notesInitail);
@@ -57,7 +57,7 @@ const NoteContextProvider = ({ children }) => {
         "auth-token": localStorage.getItem("token"),
       },
     });
-    const json =  response.toString();
+    const json = response.toString();
     console.log("json:", json);
 
     const newNote = notes.filter((note) => {
