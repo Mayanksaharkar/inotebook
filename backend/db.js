@@ -1,5 +1,6 @@
+require("dotenv").config();
 const mongoose = require('mongoose')
 const connectToMongo = () => {
-    mongoose.connect("mongodb://localhost:27017/inotebook?directConnection=true")
+    mongoose.connect(process.env.MONGO_URI)
 }
 module.exports = connectToMongo;
