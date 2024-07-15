@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import url from "../url";
 import icon from "../icon/book.png";
 function Login() {
   let navigate = useNavigate();
@@ -12,7 +13,7 @@ function Login() {
     e.preventDefault();
     console.log("loginClicked");
     const response = await fetch(
-      "https://inotebook-mbs4.onrender.com/api/auth/login",
+      `${url}/api/auth/login`,
       {
         method: "POST",
         headers: {

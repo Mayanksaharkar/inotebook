@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import icon from "../icon/book.png";
 import { toast } from "react-toastify";
+import axios from "axios";
+import url from "../url";
 function Signup() {
   const navigate = useNavigate();
   const [name, setName] = useState(null);
@@ -13,36 +15,45 @@ function Signup() {
     if (password !== repass) {
       alert("Password doesnt matched!");
     } else {
-      const response = await fetch(
-        "https://inotebook-mbs4.onrender.com/api/auth/createuser",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name,
-            email: email,
-            password: password,
-          }),
-        }
-      );
+      // const response = await fetch(`${url}/api/auth/createuser`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     name: name,
+      //     email: email,
+      //     password: password,
+      //   }),
+      // });
 
-      const json = await response.json();
-      console.log(json);
-      switch (json.status) {
-        case "created":
-          toast.success("Account Created Successfully");
-          navigate("/login");
-          break;
-        case "exists":
-          toast.error("Already Exists");
-          break;
+      await axios
+        .post(`${url}/api/auth/createuser`, {
+          name: name,
+          email: email,
+          password: password,
+        })
+        .then((response) => {
+          const json = response.json();
+          console.log(json);
+          switch (json.status) {
+            case "created":
+              toast.success("Account Created Successfully");
+              navigate("/login");
+              break;
+            case "exists":
+              toast.error("Already Exists");
+              break;
 
-        default:
-          toast.error("Somethin went wrong!");
-          break;
-      }
+            default:
+              toast.error("Somethin went wrong!");
+              break;
+          }
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   return (

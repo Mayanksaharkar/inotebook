@@ -1,7 +1,8 @@
+import url from "../../url";
 import NoteContext from "./NoteContext";
 import { useState } from "react";
 const NoteContextProvider = ({ children }) => {
-  const host = "https://inotebook-mbs4.onrender.com";
+  
   const notesInitail = [];
 
   const [notes, setNotes] = useState(notesInitail);
@@ -19,7 +20,7 @@ const NoteContextProvider = ({ children }) => {
   };
 
   const fetchAllNotes = async () => {
-    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+    const response = await fetch(`${url}/api/notes/fetchallnotes`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +35,7 @@ const NoteContextProvider = ({ children }) => {
   const addNote = async (title, description, tag) => {
     // TODO: API Call
     // API Call
-    const response = await fetch(`${host}/api/notes/addnote`, {
+    const response = await fetch(`${url}/api/notes/addnote`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +51,7 @@ const NoteContextProvider = ({ children }) => {
   const deleteNote = async (id) => {
     // Api call
 
-    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+    const response = await fetch(`${url}/api/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
         "Content-type": "application/json",
@@ -68,7 +69,7 @@ const NoteContextProvider = ({ children }) => {
 
   const updateNote = async (id, title, description, tag) => {
     // API Call
-    const response = await fetch(`${host}/api/notes/update/${id}`, {
+    const response = await fetch(`${url}/api/notes/update/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
