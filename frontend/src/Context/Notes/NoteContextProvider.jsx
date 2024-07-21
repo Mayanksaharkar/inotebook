@@ -1,6 +1,7 @@
 import url from "../../url";
 import NoteContext from "./NoteContext";
 import { useState } from "react";
+import axios from "axios";
 const NoteContextProvider = ({ children }) => {
   
   const notesInitail = [];
@@ -19,53 +20,50 @@ const NoteContextProvider = ({ children }) => {
     }, 1500);
   };
 
-  const fetchAllNotes = async () => {
-    const response = await fetch(`${url}/api/notes/fetchallnotes`, {
-      method: "GET",
+
+const fetchAllNotes = async () => {
+  try {
+    const response = await axios.get(`${url}/api/notes/fetchallnotes`, {
       headers: {
-        "Content-Type": "application/json",
         "auth-token": localStorage.getItem("token"),
       },
     });
-    const json = await response.json();
-    console.log("json:", json);
-    setNotes(json);
-  };
+    console.log("json:", response.data);
+    setNotes(response.data);
+  } catch (error) {
+    console.error("Error fetching notes:", error);
+   
+  }
+};
 
-  const addNote = async (title, description, tag) => {
-    // TODO: API Call
-    // API Call
-    const response = await fetch(`${url}/api/notes/addnote`, {
-      method: "POST",
+const addNote = async (title, description, tag) => {
+  try {
+    const response = await axios.post(`${url}/api/notes/addnote`, { title, description, tag }, {
       headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify({ title, description, tag }),
-    });
-
-    const note = await response.json();
-    setNotes(notes.concat(note));
-  };
-
-  const deleteNote = async (id) => {
-    // Api call
-
-    const response = await fetch(`${url}/api/notes/deletenote/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
         "auth-token": localStorage.getItem("token"),
       },
     });
-    const json = response.toString();
-    console.log("json:", json);
+    setNotes(notes.concat(response.data));
+  } catch (error) {
+    console.error("Error adding note:", error);
+    
+  }
+};
 
-    const newNote = notes.filter((note) => {
-      return note._id !== id;
+const deleteNote = async (id) => {
+  try {
+    await axios.delete(`${url}/api/notes/deletenote/${id}`, {
+      headers: {
+        "auth-token": localStorage.getItem("token"),
+      },
     });
-    setNotes(newNote);
-  };
+    const newNotes = notes.filter((note) => note._id !== id);
+    setNotes(newNotes);
+  } catch (error) {
+    console.error("Error deleting note:", error);
+   
+  }
+};
 
   const updateNote = async (id, title, description, tag) => {
     // API Call

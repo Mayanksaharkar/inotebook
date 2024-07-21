@@ -3,11 +3,15 @@ const cors = require('cors')
 const connectToMongo = require('./db')
 connectToMongo();
 
-const app = express();
-app.use(cors())
-// app.get('/' , (req ,res)=>{
-//     res.send("hello");
-// })
+const app = express()
+const corsOptions = {
+    origin: "http://localhost:3000" // frontend URI (ReactJS)
+}
+app.use(cors(corsOptions));
+
+app.get('/', (req, res) => {
+    res.send("hello");
+})
 app.use(express.json())
 app.use('/api/auth', require('./routes/auth'))
 app.use('/api/notes', require('./routes/notes'))

@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import url from "../url";
 import icon from "../icon/book.png";
+import axios from "axios";
+
 function Login() {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -12,35 +14,28 @@ function Login() {
   const handleLoginClick = async (e) => {
     e.preventDefault();
     console.log("loginClicked");
-    const response = await fetch(
-      `${url}/api/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
+    try {
+      const response = await axios.post(`${url}/api/auth/login`, {
+        email: email,
+        password: password,
+      });
+
+      console.log(response.data);
+
+      if (response.data.success === true) {
+        console.log("success:", response.data.success);
+        localStorage.setItem("token", response.data.authToken);
+
+        toast.success("Login Success");
+        navigate("/notesboard");
+      } else {
+        toast.error("Invalid Credentials");
       }
-    );
-
-    const json = await response.json();
-    console.log(json);
-
-    if (json.success === true) {
-      console.log("success:", json.success);
-      // console.log()
-      localStorage.setItem("token", json.authToken);
-
-      toast.success("Login Success");
-      navigate("/notesboard");
-    } else {
-      toast.error("Invalid Credentials");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("Login failed");
     }
   };
-
   return (
     <section className='bg-base-100' data-theme='forest'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
