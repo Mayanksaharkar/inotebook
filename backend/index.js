@@ -5,7 +5,7 @@ connectToMongo();
 
 const app = express()
 const corsOptions = {
-    origin: "https://inotebook-frontend-h86b.onrender.com/" // frontend URI (ReactJS)
+    origin: "https://inotebook-frontend-h86b.onrender.com/"
 }
 app.use(cors(corsOptions));
 
