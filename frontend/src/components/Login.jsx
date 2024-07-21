@@ -14,6 +14,11 @@ function Login() {
   const handleLoginClick = async (e) => {
     e.preventDefault();
     console.log("loginClicked");
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["Authorization"] =
+      localStorage.getItem("token");
+    axios.defaults.headers.common["Content-Type"] = "application/json";
+    axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
     try {
       const response = await axios.post(`${url}/api/auth/login`, {
         email: email,

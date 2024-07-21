@@ -27,6 +27,11 @@ function Signup() {
       //   }),
       // });
 
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =
+        localStorage.getItem("token");
+      axios.defaults.headers.common["Content-Type"] = "application/json";
+      axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
       await axios
         .post(`${url}/api/auth/createuser`, {
           name: name,
