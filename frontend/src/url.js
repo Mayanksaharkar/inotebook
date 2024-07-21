@@ -1,2 +1,2 @@
-const url = "https://inotebook-gold-mu.vercel.app/"
+const url = "https://inotebook-1-4nxo.onrender.com/"
 export default url;
